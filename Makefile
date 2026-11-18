@@ -13,3 +13,8 @@ add:
 
 run: install
 	@uv run call-me-maybe
+
+clean:
+	rm -rf $(VENV)
+	rm -rf $(CACHE)
+	rm -rf src/call_me_maybe/__pycache__
