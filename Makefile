@@ -18,3 +18,6 @@ clean:
 	rm -rf $(VENV)
 	rm -rf $(CACHE)
 	rm -rf src/call_me_maybe/__pycache__
+
+lint:
+	@uv run -m flake8 src/call_me_maybe
