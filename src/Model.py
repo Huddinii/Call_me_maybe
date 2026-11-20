@@ -20,6 +20,7 @@ class Available(BaseModel):
     tasks: list[dict[str, str]]
     functions: list[Functions]
     llm: Small_LLM_Model
+    out: str
 
     def __str__(self) -> str:
         return str(self.tasks) + "\n" + str(self.functions)
