@@ -20,7 +20,9 @@ except FileNotFoundError as e:
 except json.decoder.JSONDecodeError as e:
     print(e)
 else:
-    m = Available(tasks=tasks, functions=functions, llm=llm, out=args.output)
+    m = Available(tasks=tasks, functions=functions, llm=llm,
+                  out_path=args.output)
+    m.generate_json()
 
 
 # parser.parse_args(['--input'])
