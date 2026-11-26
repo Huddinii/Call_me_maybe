@@ -53,12 +53,33 @@ class Available(BaseModel):
                       " arguments.\nAvailable functions:"
                       f"{json.dumps([vars(f) for f in self.functions])}"
                       f"\nTask: {t['prompt']}\n")
-            out_ids = []
-            for c in constraints:
-                in_ids = self.llm.encode(prompt + c)[0].tolist()
-                logits = self.llm.get_logits_from_input_ids(in_ids)
-                next_id = numpy.argmax(logits)
-                in_ids.append(next_id)
-                out_ids.append(next_id)
+            # out_ids = []
+            prompt, name = self.get_name(prompt)
+            result.update(name)
+            parameter = self.get_parameters(prompt, t,
+                                            [f for f in self.functions
+                                             if f.name == name][0])
+            result.update(parameter)
+            # in_ids = self.llm.encode(prompt)[0].tolist()
+            # logits = self.llm.get_logits_from_input_ids(in_ids)
+            # next_id = numpy.argmax(logits)
+            # in_ids.append(next_id)
+            # out_ids.append(next_id)
             out.append(result)
-            print(self.llm.decode(out_ids))
+            # print(self.llm.decode(out_ids))
+
+    def get_name(self, prompt: str) -> tuple[str, dict[str, str]]:
+        # encode function names
+        # compare next logit to function name ids
+        # add result to list if compare is true
+        # update prompt with next id
+        # return final prompt and result
+        ...
+
+    def get_parameters(self, prompt: str, task: dict[str, str],
+                       func: str) -> dict[str, Any]:
+        # encode task
+        # compare next logit to task ids
+        # if correct check if return fits the function parameter type
+        # if all parameters filled return result
+        ...
