@@ -70,11 +70,20 @@ class Available(BaseModel):
 
     def get_name(self, prompt: str) -> tuple[str, dict[str, str]]:
         # encode function names
+        mask = set()
+        funcs = []
+        for f in self.functions:
+            ids = self.llm.encode(f.name)[0].tolist()
+            mask = mask.union(ids)
+            funcs.append(ids)
+        prompt = prompt + "Name: "
+        in_ids = self.llm.encode(prompt)[0].tolist()
         # compare next logit to function name ids
+        for _ in range(50):
+            logits = self.llm.get_logits_from_input_ids(in_ids)
         # add result to list if compare is true
         # update prompt with next id
         # return final prompt and result
-        ...
 
     def get_parameters(self, prompt: str, task: dict[str, str],
                        func: str) -> dict[str, Any]:
